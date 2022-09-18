@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Button, Alert, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Button, Alert, Image, Dimensions } from 'react-native';
 
 export default function App() {
 
@@ -43,11 +43,11 @@ const listSeparator = () => {
       data={repositories}
       ItemSeparatorComponent={listSeparator} />
       <TextInput 
-        style={{fontSize:16, width:200, borderColor: 'gray', borderWidth: 1,}} 
+        style={{fontSize:16, width:200, borderColor: 'gray', borderWidth: 1.0, justifyContent: 'center', marginLeft: 65}} 
         placeholder='keyword'onChangeText={text => setKeyword(text) } />
-      
+      <View style={{ width:Dimensions.get("window").width * 0.9, flexDirection: 'row', justifyContent: 'center', marginTop: 5}}>
       <Button title="Find"onPress= {getRepositories} />
-  
+      </View>
     <StatusBar style="auto" />
   </View>
   );
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    marginLeft: 10,
     justifyContent: 'center',
     marginTop: 50,
   },
