@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Button, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Button, Alert, Image } from 'react-native';
 
 export default function App() {
 
@@ -10,11 +10,23 @@ const [repositories, setRepositories] = useState([]);
 const getRepositories = () => {  
   fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${keyword}`)  
   .then(response => response.json())  
-  .then(data => setRepositories(data.items))  
+  .then(data => setRepositories(data.meals))  
   .catch(error => {         
         Alert.alert('Error', error);   
   });
 }
+const listSeparator = () => {
+  return (
+    <View
+      style={{
+        height: 1,
+        width: "80%",
+        backgroundColor: "#CED0CE",
+        marginLeft: "10%"
+      }}
+    />
+  );
+};
 
   return (
     <View style={styles.container}>
@@ -23,13 +35,15 @@ const getRepositories = () => {
         renderItem={({item}) =>
         <View>
           <Text 
-            style={{fontSize:18, fontWeight: "bold"}}>{item.full_name}
+            style={{fontSize:16, fontWeight: "bold"}}>{item.strMeal}
           </Text>
-          <Text style={{fontSize:16 }}>{item.description}</Text>
+          <Image 
+          style={{width: 50,height: 50}}source={{uri: item.strMealThumb}}/>
         </View>} 
-      data={repositories} />
+      data={repositories}
+      ItemSeparatorComponent={listSeparator} />
       <TextInput 
-        style={{fontSize:18, width:200}} 
+        style={{fontSize:16, width:200, borderColor: 'gray', borderWidth: 1,}} 
         placeholder='keyword'onChangeText={text => setKeyword(text) } />
       
       <Button title="Find"onPress= {getRepositories} />
